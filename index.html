@@ -7,67 +7,108 @@
     
     <style>
         body{
-    text-align:center;
-    scroll-behavior: smooth; 
-    font-family: Arial; 
-}
+            text-align: center;
+            scroll-behavior: smooth; 
+            font-family: Arial; 
+        }
 
-Section {
-    background-color: #f3f3f3;
-      height: 50px;
-      padding: 50px;
-      width: 250px;
-      border-radius: 10px;
-      margin: 20px auto;
-      padding-left: 60px; 
-      padding-right: 60px;
-}
+        section {
+            background-color: #f3f3f3;
+            height: 50px;
+            padding: 50px;
+            width: 250px;
+            border-radius: 10px;
+            margin: 20px auto;
+            padding-left: 60px; 
+            padding-right: 60px;
+        }
 
+        .todohinzufügen{
+            background-color: white;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: -35px;
+            margin-right: -40px;
+            margin-left: -40px;
+        }
 
+        button {
+            height: 35px;
+            width: 40%;
+            background-color: lightgrey;
+            border: none;
+            border-radius: 5px;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
 
-.todohinzufügen{
-    background-color: white;
-      border-radius: 5px;
-      padding: 10px;
-      margin-top: -35px;
-      margin-right: -40px;
-      margin-left: -40px;
-}
+        input {
+            margin-top: 5px;
+            text-align: center;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            outline: none;
+            font-size: large;
+        }
 
-button {
-    height: 35px;
-    width: 40%;
-    background-color: lightgrey;
-    border: none;
-    border-radius: 5px;
-    font-size: 15px;
-    cursor: pointer;
-margin-top:20px;
-}
+        ul {
+            padding: 0;
+            list-style-type: none;
+            margin: 0 auto;
+            width: 400px;
+        }
 
-input {
-    height: 30px;
-    margin-top:5px;
-    text-align:center;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    outline: none;
-    font-size: large;
+        li {
+            display: flex;
+            align-items: center; /* Vertikal mittig */
+            justify-content: space-between; /* Button ganz rechts */
+            margin: auto;
+            width: 100%;
+            max-width: 400px;
+            background-color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            word-break: break-word;
+            box-sizing: border-box;
+        }
 
-}
-    
+        li input[type="checkbox"] {
+            margin: 0;
+            transform: scale(1.2); /* Optional: größer machen */
+            cursor: pointer;
+        }
 
-  ul{
-    padding: 0;
-    list-style-type: none;
-  }
+        li span {
+            flex-grow: 1;
+            margin: 0 15px;
+            text-align: left;
+            display: flex;
+            align-items: center; /* Vertikal mittig */
+            font-size: 16px;
+        }
+
+        li button {
+            background-color: white;
+            color: black;
+            border: none;
+            border-radius: 3px;
+            font-size: 16px;
+            padding: 4px 8px;
+            cursor: pointer;
+            height: auto;
+            display: flex;
+            align-items: center;   /* Vertikal mittig */
+            justify-content: center;
+        }
+
     </style>
 </head>
 <body>
     <h1>To Do App</h1>
-    <section  class="tododisplay">
+    <section class="tododisplay">
         <div class="todohinzufügen">
-            <input id="todoFeld"  placeholder="To Do hinzufügen">
+            <input id="todoFeld" placeholder="To Do hinzufügen">
             <button onclick="todoHinzufügen()">To Do speichern</button>
         </div>
     </section>
@@ -78,8 +119,66 @@ input {
 
     <script>
         function todoHinzufügen() {
-            todoListe.innerHTML += '<li><input type="checkbox">' + todoFeld.value +' </li>';
-            todoFeld.value='';
+            todoListe.innerHTML += '<li><input type="checkbox">' + todoFeld.value + ' <button>X</button></li>';
+            todoFeld.value = '';
+        }
+
+        const todoListeElement = document.getElementById("todoListe");
+        const todoFeld = document.getElementById("todoFeld");
+
+        // Beim Laden der Seite gespeicherte To-Dos anzeigen
+        window.onload = function () {
+            const gespeicherteTodos = JSON.parse(localStorage.getItem("todos")) || [];
+            gespeicherteTodos.forEach(todo => {
+                todoErstellen(todo.text, todo.erledigt);
+            });
+        };
+
+        function todoErstellen(text, erledigt = false) {
+            const li = document.createElement("li");
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.checked = erledigt;
+
+            const span = document.createElement("span");
+            span.textContent = text;
+
+            const löschenButton = document.createElement("button");
+            löschenButton.textContent = "X";
+            löschenButton.onclick = function () {
+                todoListeElement.removeChild(li);
+                todos = todos.filter(t => t.text !== text);
+                speichern();
+            };
+
+            checkbox.onchange = function () {
+                const todo = todos.find(t => t.text === text);
+                if (todo) {
+                    todo.erledigt = checkbox.checked;
+                    speichern();
+                }
+            };
+
+            li.appendChild(checkbox);
+            li.appendChild(span);
+            li.appendChild(löschenButton);
+            todoListeElement.appendChild(li);
+        }
+
+        let todos = JSON.parse(localStorage.getItem("todos")) || [];
+
+        function todoHinzufügen() {
+            const text = todoFeld.value.trim();
+            if (text === "") return;
+
+            todoErstellen(text);
+            todos.push({ text: text, erledigt: false });
+            speichern();
+            todoFeld.value = "";
+        }
+
+        function speichern() {
+            localStorage.setItem("todos", JSON.stringify(todos));
         }
     </script>
 </body>
