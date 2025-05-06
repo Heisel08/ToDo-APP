@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To Do Liste</title>
-    <link rel="stylesheet" href="ToDoListe.css">
+    
     <style>
         body{
     text-align:center;
@@ -13,7 +13,7 @@
 }
 
 Section {
-      background-color: #f3f3f3;
+    background-color: #f3f3f3;
       height: 50px;
       padding: 50px;
       width: 250px;
@@ -21,14 +21,10 @@ Section {
       margin: 20px auto;
       padding-left: 60px; 
       padding-right: 60px;
-    }
-
-   
-
-.tododisplay {
-    background-color: #f3f3f3;
-    padding: 40px;
 }
+
+
+
 .todohinzufügen{
     background-color: white;
       border-radius: 5px;
@@ -46,6 +42,7 @@ button {
     border-radius: 5px;
     font-size: 15px;
     cursor: pointer;
+margin-top:20px;
 }
 
 input {
@@ -71,7 +68,7 @@ input {
     <section  class="tododisplay">
         <div class="todohinzufügen">
             <input id="todoFeld"  placeholder="To Do hinzufügen">
-            <button onclick="todoHinzufügen()">To Do Hinzufügen</button>
+            <button onclick="todoHinzufügen()">To Do speichern</button>
         </div>
     </section>
 
