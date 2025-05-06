@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do Liste</title>
+    <link rel="stylesheet" href="ToDoListe.css">
+    <style>
+        body{
+    text-align:center;
+    scroll-behavior: smooth; 
+    font-family: Arial; 
+}
+
+Section {
+    background-color: #f3f3f3;
+      height: 50px;
+      padding: 50px;
+      width: 250px;
+      border-radius: 10px;
+      margin: 20px auto;
+      padding-left: 60px; 
+      padding-right: 60px;
+}
+
+.tododisplay {
+    background-color: #f3f3f3;
+    padding: 40px;
+}
+.todohinzufügen{
+    background-color: white;
+      border-radius: 5px;
+      padding: 10px;
+      margin-top: -35px;
+      margin-right: -40px;
+      margin-left: -40px;
+}
+
+button {
+    height: 35px;
+    width: 40%;
+    background-color: lightgrey;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+input {
+    height: 30px;
+    margin-top:5px;
+    text-align:center;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    
+
+}
+
+
+  ul{
+    padding: 0;
+    list-style-type: none;
+  }
+    </style>
+</head>
+<body>
+    <h1>To Do App</h1>
+    <section  class="tododisplay">
+        <div class="todohinzufügen">
+            <input id="todoFeld"  placeholder="To Do hinzufügen">
+            <button onclick="todoHinzufügen()">To Do Hinzufügen</button>
+        </div>
+    </section>
+
+    <ul id="todoListe">
+    
+    </ul>
+
+    <script>
+        function todoHinzufügen() {
+            todoListe.innerHTML += '<li><input type="checkbox">' + todoFeld.value +' </li>';
+            todoFeld.value='';
+        }
+    </script>
+</body>
+</html>
